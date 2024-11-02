@@ -1,18 +1,16 @@
-FROM debian:buster AS builder
+FROM debian:bookworm AS builder
 
 RUN     apt-get update && \
         apt-get install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common && \
-        curl -sL 'https://getenvoy.io/gpg' | apt-key add - && \
-        apt-key fingerprint 6FF974DB | grep "5270 CEAC" && \
-        add-apt-repository "deb [arch=amd64] https://dl.bintray.com/tetrate/getenvoy-deb $(lsb_release -cs) stable" && \
+        curl -sL https://apt.envoyproxy.io/signing.key | gpg --dearmor -o /etc/apt/keyrings/envoy-keyring.gpg && \
+        echo "deb [signed-by=/etc/apt/keyrings/envoy-keyring.gpg] https://apt.envoyproxy.io bookworm main" | tee /etc/apt/sources.list.d/envoy.list && \
         apt-get update && \
         apt-get install -y \
-        git python3-pip build-essential autoconf libtool pkg-config cmake libssl-dev libboost-all-dev tar wget getenvoy-envoy && \
-        pip3 install PyYAML requests
+        git python3-pip build-essential autoconf libtool pkg-config cmake libssl-dev libboost-all-dev tar wget envoy python3-requests python3-yaml
 
 # gRPC
 RUN     cd root && \
-        git clone -b v1.37.0 https://github.com/grpc/grpc && \
+        git clone -b v1.67.1 https://github.com/grpc/grpc && \
         cd grpc && \
         git submodule update --init && \
         mkdir -p "third_party/abseil-cpp/cmake/build" && \
