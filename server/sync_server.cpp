@@ -7,6 +7,7 @@
 #include "price_floating_rate_bond_request_generated.h"
 
 #include <grpcpp/grpcpp.h>
+#include <absl/log/check.h>
 
 #include <iostream>
 #include <memory>
@@ -142,7 +143,7 @@ private:
             }
             else
             {
-                GPR_ASSERT(status_ == FINISH);
+                CHECK(status_ == FINISH);
                 delete this;
             }
         }
@@ -219,8 +220,8 @@ private:
 
         while (true)
         {
-            GPR_ASSERT(cq_->Next(&tag, &ok));
-            GPR_ASSERT(ok);
+            CHECK(cq_->Next(&tag, &ok));
+            CHECK(ok);
             static_cast<CallData *>(tag)->Proceed();
         }
     }

@@ -5,7 +5,7 @@
 #include <chrono>
 
 #include <grpcpp/grpcpp.h>
-#include <grpc/support/log.h>
+#include <absl/log/check.h>
 #include <thread>
 
 #include "data/fixed_rate_bond_request_fbs.h"
@@ -51,7 +51,7 @@ public:
         {
             AsyncClientCall *call = static_cast<AsyncClientCall *>(got_tag);
 
-            GPR_ASSERT(ok);
+            CHECK(ok);
 
             if (call->status.ok())
             {

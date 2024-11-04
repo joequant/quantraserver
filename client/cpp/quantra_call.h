@@ -8,7 +8,8 @@
 #include <chrono>
 
 #include <grpcpp/grpcpp.h>
-#include <grpc/support/log.h>
+#include <absl/log/check.h>
+
 #include <thread>
 
 #include "quantra_client.h"
@@ -54,7 +55,7 @@ public:
         {
             AsyncClientCall *call = static_cast<AsyncClientCall *>(got_tag);
 
-            GPR_ASSERT(ok);
+            CHECK(ok);
 
             int position = call->request_pos;
             if (call->status.ok())
