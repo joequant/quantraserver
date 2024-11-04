@@ -47,7 +47,7 @@ RUN     cd /root && \
 # Quantra
 RUN     cd /root && \
         git clone https://github.com/joequant/quantraserver && \
-        cd quantragrpc && \
+        cd quantraserver && \
         . ./scripts/config_vars.sh && \
         mkdir build && \
         cd build && \
